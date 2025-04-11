@@ -1,6 +1,11 @@
 # From the orders dataset, for each user, rank their orders based on order amount in descending order (highest amount first). 
 # Show only the highest amount order per user.
 
+# “From the orders dataset, for each user, show their orders along with:
+
+# 	•	Previous order amount (using LAG)
+# 	•	Next order amount (using LEAD)”
+
 from pyspark.sql import SparkSession
 from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number, rank, dense_rank
