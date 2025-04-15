@@ -31,7 +31,9 @@ pyspark-practice/
 │   ├── Q5_get_customers_with_multiple_orders.py
 │   ├── Q6_customers_with_highest_order_amount.py
 │   ├── Q7_daily_total_sales_amount.py
-│   └── Q8_running_total_sales_per_day.py
+│   ├── Q8_running_total_sales_per_day.py
+│   ├── Q9_products_sold_in_all_months.py
+│   └── Q10_remove_duplicate_records_based_on_latest_timestamp.py
 │
 ├── data/                # For sample data if needed
 ├── main.py              # Optional execution file
@@ -52,6 +54,8 @@ pyspark-practice/
 | 6 | Customers With Highest Total Order Amount               | Q6_customers_with_highest_order_amount.py         |
 | 7 | Daily Total Sales Amount                                | Q7_daily_total_sales_amount.py                    |
 | 8 | Running Total of Sales Per Day                          | Q8_running_total_sales_per_day.py                 |
+| 9 | Products Sold in All Months                              | Q9_products_sold_in_all_months.py                 |
+| 10 | Remove Duplicate Records Based on Latest Timestamp      | Q10_remove_duplicate_records_based_on_latest_timestamp.py |
 
 ---
 
