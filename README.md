@@ -68,4 +68,20 @@ df.withColumn("grp", date_sub("login_date", col("rn")))
 
 ---
 
+## 🛠️ Real-World Interview Patterns
+
+### ⏳ Products Not Sold in Last N Months
+
+```python
+from pyspark.sql.functions import current_date, add_months, max, col
+
+cutoff_date = add_months(current_date(), -3)
+
+# Get the last sale date per product
+df_latest = df.groupBy("product_id").agg(max("sale_date").alias("last_sold"))
+
+# Filter products not sold in the last 3 months
+df_result = df_latest.filter(col("last_sold") < cutoff_date)
+```
+
 Continue adding new patterns here as you solve more questions!
