@@ -9,9 +9,10 @@ spark = SparkSession.builder.master("local").appName("Q13_consecutive_login_stre
 # Define schema and data
 schema = StructType([
     StructField("user_id", IntegerType(), True),
-    StructField("login_time", StringType(), True)
+    StructField("login_time", StringType(), True)  # login_time as string initially
 ])
 
+# Sample login data per user
 data = [
     (1, "2024-04-01"),
     (1, "2024-04-02"),
@@ -20,23 +21,26 @@ data = [
     (1, "2024-04-06"),
 ]
 
-# Create DataFrame
+# Create initial DataFrame
 df_logins = spark.createDataFrame(data=data, schema=schema)
 
-# Convert login_time to date format
+# Convert login_time string to actual date format
 df_logins = df_logins.withColumn("login_date", to_date("login_time"))
 
-# Assign row numbers partitioned by user and ordered by login_date
+# Assign row numbers ordered by login_date for each user
+# This simulates a virtual sequence of login dates
 windowSpec = Window.partitionBy("user_id").orderBy("login_date")
 df_with_rn = df_logins.withColumn("rn", row_number().over(windowSpec))
 
-# Create group identifier for consecutive streaks
+# Create a group key by subtracting row number from login_date
+# This helps identify streaks: consecutive logins will have same (login_date - rn) value
 df_with_diff = df_with_rn.withColumn("grp", date_sub("login_date", col("rn")))
 
-# Group by user and grp to find streaks
+# Count the number of logins in each streak group
 df_grouped = df_with_diff.groupBy("user_id", "grp").count()
 
-# Find max streak per user
+# From the grouped streaks, find the max (longest) count per user
 df_result = df_grouped.groupBy("user_id").agg({"count": "max"}).withColumnRenamed("max(count)", "longest_streak")
 
+# Display result
 df_result.show()
