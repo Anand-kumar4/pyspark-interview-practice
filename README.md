@@ -1,98 +1,71 @@
-# PySpark Interview Practice 🚀
+# PySpark Syntax Bank 📘
 
-This repository contains a curated set of **real-world PySpark coding problems** designed in **LeetCode + Interview Style**.
-
-Each problem focuses on commonly asked patterns in **Senior Data Engineer Interviews** involving:
-- Window Functions
-- Joins
-- Aggregations
-- Ranking
-- Real-time Use Cases
+This file is your personal quick-reference cheat sheet for all important PySpark transformations, actions, and patterns seen in real-world interview problems.
 
 ---
 
-## 🔧 Tech Stack
+## 🔁 Window Functions
 
-- Python 🐍
-- PySpark ⚡️
-- Apache Spark (Local Mode)
-- VS Code / Jupyter Notebooks
+```python
+from pyspark.sql.window import Window
+from pyspark.sql.functions import row_number, rank, dense_rank
 
----
+windowSpec = Window.partitionBy("column").orderBy("column")
 
-## 📂 Folder Structure
-pyspark-practice/
-│
-├── interview_questions/
-│   ├── Q1_top_2_highest_paid_employees_per_department.py
-│   ├── Q2_second_highest_salary_in_each_department.py
-│   ├── Q3_employees_with_highest_salary_per_department.py
-│   ├── Q4_customers_with_no_orders.py
-│   ├── Q5_get_customers_with_multiple_orders.py
-│   ├── Q6_customers_with_highest_order_amount.py
-│   ├── Q7_daily_total_sales_amount.py
-│   ├── Q8_running_total_sales_per_day.py
-│   ├── Q9_products_sold_in_all_months.py
-│   └── Q10_remove_duplicate_records_based_on_latest_timestamp.py
-│
-├── data/                # For sample data if needed
-├── main.py              # Optional execution file
-├── requirements.txt     # Spark + Python dependencies
-└── README.md
+df.withColumn("rn", row_number().over(windowSpec))
+```
 
 ---
 
-## 📌 Problem List
+## 📆 Date & Timestamp Handling
 
-| # | Problem Title                                           | Filename                                          |
-|---|---------------------------------------------------------|---------------------------------------------------|
-| 1 | Top 2 Highest Paid Employees Per Department             | Q1_top_2_highest_paid_employees_per_department.py |
-| 2 | Second Highest Salary Per Department                    | Q2_second_highest_salary_in_each_department.py    |
-| 3 | Employees with Highest Salary Per Department            | Q3_employees_with_highest_salary_per_department.py|
-| 4 | Customers Who Never Placed Orders                       | Q4_customers_with_no_orders.py                    |
-| 5 | Customers With Multiple Orders                          | Q5_get_customers_with_multiple_orders.py          |
-| 6 | Customers With Highest Total Order Amount               | Q6_customers_with_highest_order_amount.py         |
-| 7 | Daily Total Sales Amount                                | Q7_daily_total_sales_amount.py                    |
-| 8 | Running Total of Sales Per Day                          | Q8_running_total_sales_per_day.py                 |
-| 9 | Products Sold in All Months                             | Q9_products_sold_in_all_months.py                 |
-| 10 | Remove Duplicate Records Based on Latest Timestamp     | Q10_remove_duplicate_records_based_on_latest_timestamp.py |
-| 11 | First and Last Login Per User                          | Q11_first_and_last_login_per_user.py               |
-| 12 | Average Sales Per Product Per Month                    | Q12_average_sales_per_product_per_month.py         |
-| 13 | Consecutive Login Streak Per User                       | Q13_consecutive_login_streak_per_user.py              |
+```python
+from pyspark.sql.functions import to_date, date_format, date_sub, datediff
+
+df = df.withColumn("date_col", to_date("timestamp_col"))
+df = df.withColumn("month", date_format("date_col", "yyyy-MM"))
+df = df.withColumn("grp", date_sub("date_col", col("rn")))
+```
 
 ---
 
-## 🧠 Real-World Use Cases Covered
+## 📊 Aggregations
 
-- Customer Order Analytics
-- Sales Reporting
-- Ranking and Deduplication
-- Window Function Mastery
-- Join Optimization (anti, inner, broadcast)
+```python
+from pyspark.sql.functions import avg, sum, min, max, countDistinct
 
----
-
-## 🧵 Follow My Journey
-
-I'm posting 1 PySpark interview-style problem daily on [LinkedIn](https://www.linkedin.com/in/anand-kumar-singh-830839ab/)  
-Follow along and ⭐ the repo for updates!
-
-💬 Complete blog version coming soon!
+df.groupBy("product_id").agg(avg("sale_amount").alias("avg_sale"))
+```
 
 ---
 
-## ✅ To Run Locally
+## 🧩 Joins
 
-1. Install dependencies:
+```python
+df1.join(df2, "key_column", "inner")
+df1.join(df2, df1.id == df2.user_id, "left_anti")
+```
 
-```bash
-pip install pyspark
+---
 
-spark-submit interview_questions/Q1_*.py
+## 🧼 Deduplication
 
+```python
+from pyspark.sql.functions import row_number
 
-⸻
+windowSpec = Window.partitionBy("email").orderBy("login_time.desc()")
+df.withColumn("rn", row_number().over(windowSpec)).filter("rn == 1")
+```
 
-📩 License
+---
 
-MIT License © 2025 Anand Kumar Singh
+## 🧠 Grouping Consecutive Events
+
+```python
+# Using login_date - row_number to group consecutive days
+df.withColumn("grp", date_sub("login_date", col("rn")))
+```
+
+---
+
+Continue adding new patterns here as you solve more questions!
