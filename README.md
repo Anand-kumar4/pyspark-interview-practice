@@ -54,8 +54,9 @@ pyspark-practice/
 | 6 | Customers With Highest Total Order Amount               | Q6_customers_with_highest_order_amount.py         |
 | 7 | Daily Total Sales Amount                                | Q7_daily_total_sales_amount.py                    |
 | 8 | Running Total of Sales Per Day                          | Q8_running_total_sales_per_day.py                 |
-| 9 | Products Sold in All Months                              | Q9_products_sold_in_all_months.py                 |
-| 10 | Remove Duplicate Records Based on Latest Timestamp      | Q10_remove_duplicate_records_based_on_latest_timestamp.py |
+| 9 | Products Sold in All Months                             | Q9_products_sold_in_all_months.py                 |
+| 10 | Remove Duplicate Records Based on Latest Timestamp     | Q10_remove_duplicate_records_based_on_latest_timestamp.py |
+| 11 | First and Last Login Per User                          | Q11_first_and_last_login_per_user.py               |
 
 ---
 
