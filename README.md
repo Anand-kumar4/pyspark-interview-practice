@@ -58,6 +58,7 @@ pyspark-practice/
 | 10 | Remove Duplicate Records Based on Latest Timestamp     | Q10_remove_duplicate_records_based_on_latest_timestamp.py |
 | 11 | First and Last Login Per User                          | Q11_first_and_last_login_per_user.py               |
 | 12 | Average Sales Per Product Per Month                    | Q12_average_sales_per_product_per_month.py         |
+| 13 | Consecutive Login Streak Per User                       | Q13_consecutive_login_streak_per_user.py              |
 
 ---
 
